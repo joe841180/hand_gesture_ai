@@ -10,6 +10,8 @@ class Example(QWidget):
        #預設情況下禁用滑鼠跟蹤， 如果啟用滑鼠跟蹤，即使沒有按鈕被按下，小部件也會接收滑鼠移動事件。
         #當然你也可以不寫，只需要在執行的過程中按照滑鼠左鍵也行
        self.setMouseTracking(True)
+       #置頂參數
+       self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
     def initUi(self):
          self.setGeometry(400,300,400,300)
