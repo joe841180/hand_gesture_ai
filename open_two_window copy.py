@@ -6,6 +6,9 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 from PyQt5 import QtCore
 
+n=int(input("輸入:"))
+mode_list=[0,1,2]
+
 class MainWindow(QMainWindow):
      def __init__(self):
           super(MainWindow, self).__init__()
@@ -24,16 +27,17 @@ class MainWindow(QMainWindow):
           self.button.clicked.connect(self.sub_window.show)
 
 # 置頂視窗--button 形式
-class SubWindow(QDialog):
+class SubWindow(QDialog,QWidget):
 
      def __init__(self):
           super().__init__()
           self.title = 'Mode show'
           self.left = 1500
           self.top = 50
-          self.width = 320
+          self.width = 200
           self.height = 100
           self.initUI()
+          self.createHorizontalLayout
 
 
      def initUI(self):
@@ -49,13 +53,27 @@ class SubWindow(QDialog):
           #設定圖示，QIcon物件接收一個我們要顯示的圖片路徑作為引數。
           # self.setWindowIcon(QIcon('web3.png'))
 
-          windowLayout = QVBoxLayout()
-          windowLayout.addWidget(self.horizontalGroupBox)
-          self.setLayout(windowLayout)
+          # windowLayout = QVBoxLayout()
+          # windowLayout.addWidget(self.horizontalGroupBox)
+          # self.setLayout(windowLayout)
 
           self.show()
 
      def createHorizontalLayout(self):
+
+          hbox = QHBoxLayout()
+
+          if n == mode_list[0]:
+               hbox.addWidget(QLabel("0:Rest"))
+          elif n == mode_list[1]:
+               hbox.addWidget(QLabel("1:Keyboard"))
+          elif n == mode_list[2]:
+               hbox.addWidget(QLabel("2:Mouse"))
+          # self.setGeometry(self.left, self.top, self.width, self.height)
+          self.setWindowTitle('Showing')
+          self.setLayout(hbox)
+          self.show()
+          """
           self.horizontalGroupBox = QGroupBox("Showing")
           
           layout = QHBoxLayout()
@@ -74,10 +92,10 @@ class SubWindow(QDialog):
 
           self.horizontalGroupBox.setLayout(layout)
 
-
      @pyqtSlot()
      def on_click(self):
           print('PyQt5 button click')
+"""
 
 if __name__ == '__main__':
      app = QApplication([])
