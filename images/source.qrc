@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="images">
+    <file>clockwise-left.png</file>
+    <file>clockwise.png</file>
+    <file>down.png</file>
+    <file>good.png</file>
+    <file>ok.png</file>
+    <file>one.png</file>
+    <file>open.png</file>
+    <file>scissor.png</file>
+    <file>six.png</file>
+    <file>close.png</file>
+  </qresource>
+</RCC>
