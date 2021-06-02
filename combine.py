@@ -1,20 +1,18 @@
 import os
 import cv2
 import sys
+
+from PyQt5.QtGui import *
+from PyQt5.QtGui import QIcon,QPalette, QBrush, QPixmap
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QGroupBox, QDialog, QVBoxLayout
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
-from PyQt5 import QtCore
-
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from PyQt5.QtGui import QPalette, QBrush, QPixmap
+from PyQt5.QtCore import pyqtSlot
+from PyQt5 import QtCore, QtGui, QtWidgets
 
-n=int(input("輸入:"))
-mode_list=[0,1,2]
+
+# n=int(input("輸入:"))
+# mode_list=[0,1,2]
 
 # class MainWindow(QMainWindow):
 class MainWindow(QWidget):
@@ -147,30 +145,118 @@ class MainWindow(QWidget):
 
 
 
-
+# QDialog,QWidget。
 # 置頂視窗--button 形式
-class SubWindow(QDialog,QWidget):
-
-     def __init__(self):
-          super().__init__()
-          self.title = 'Mode show'
-          self.left = 1500
-          self.top = 50
-          self.width = 200
-          self.height = 100
+class SubWindow(QMainWindow):
+     def __init__(self, *args, **kwargs):
+          super().__init__(*args, **kwargs)
+          self.setWindowTitle('Showing')
+          # self.resize(100, 50)
+          self.setGeometry(1600, 30, 50, 50)
           self.initUI()
-          self.createHorizontalLayout
+ 
+
+          ##### 创建界面 ######
+          self.centralwidget = QWidget()
+          self.setCentralWidget(self.centralwidget)
+          self.Layout = QVBoxLayout(self.centralwidget)
+
+          # 设置顶部三个按钮
+          self.topwidget = QWidget()
+          self.Layout.addWidget(self.topwidget)
+          self.buttonLayout = QHBoxLayout(self.topwidget)
+
+          self.pushButton1 = QPushButton()
+          self.pushButton1.setText("rest")
+          self.buttonLayout.addWidget(self.pushButton1)
+
+          self.pushButton2 = QPushButton()
+          self.pushButton2.setText("keyboard")
+          self.buttonLayout.addWidget(self.pushButton2)
+
+          self.pushButton3 = QPushButton()
+          self.pushButton3.setText("mouse")
+          self.buttonLayout.addWidget(self.pushButton3)
+
+
+
+          # 设置stackedWidget
+          self.stackedWidget = QStackedWidget()
+          self.Layout.addWidget(self.stackedWidget)
+
+          # 设置第一个面板
+          self.form1  = QWidget()
+          self.formLayout1 = QHBoxLayout(self.form1)
+          self.label1 = QLabel()
+          self.label1.setText("rest mode")
+          self.label1.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
+          self.label1.setAlignment(Qt.AlignCenter)
+          self.label1.setFont(QFont("Roman times", 15, QFont.Bold))
+          self.formLayout1.addWidget(self.label1)
+
+
+          # 设置第二个面板
+          self.form2  = QWidget()
+          self.formLayout2 = QHBoxLayout(self.form2)
+          self.label2 = QLabel()
+          self.label2.setText("keyboard mode")
+          self.label2.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
+          self.label2.setAlignment(Qt.AlignCenter)
+          self.label2.setFont(QFont("Roman times", 15, QFont.Bold))
+          self.formLayout2.addWidget(self.label2)
+
+          # 设置第三个面板
+          self.form3  = QWidget()
+          self.formLayout3 = QHBoxLayout(self.form3)
+          self.label3 = QLabel()
+          self.label3.setText("mouse mode")
+          self.label3.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
+          self.label3.setAlignment(Qt.AlignCenter)
+          self.label3.setFont(QFont("Roman times", 15, QFont.Bold))
+          self.formLayout3.addWidget(self.label3)
+
+          # 将三个面板，加入stackedWidget
+          self.stackedWidget.addWidget(self.form1)
+          self.stackedWidget.addWidget(self.form2)
+          self.stackedWidget.addWidget(self.form3)
+
+
+          
+          # 设置状态栏
+          self.statusBar().showMessage("当前用户：")
+
+          # 窗口最大化
+     #    self.showMaximized()
+          ###### 三个按钮事件 ######
+          self.pushButton1.clicked.connect(self.on_pushButton1_clicked)
+          self.pushButton2.clicked.connect(self.on_pushButton2_clicked)
+          self.pushButton3.clicked.connect(self.on_pushButton3_clicked)
+
+
+     # 按钮一：打开第一个面板
+     def on_pushButton1_clicked(self):
+          self.stackedWidget.setCurrentIndex(0)
+
+
+     # 按钮二：打开第二个面板
+     def on_pushButton2_clicked(self):
+          self.stackedWidget.setCurrentIndex(1)
+
+
+     # 按钮三：打开第三个面板
+     def on_pushButton3_clicked(self):
+          self.stackedWidget.setCurrentIndex(2)
+
+
+          
 
 
      def initUI(self):
-          self.setWindowTitle(self.title)
-          
-          self.setGeometry(self.left, self.top, self.width, self.height)
+
           
           #置頂參數
           self.setWindowFlags(Qt.WindowStaysOnTopHint)
           
-          self.createHorizontalLayout()
 
           #設定圖示，QIcon物件接收一個我們要顯示的圖片路徑作為引數。
           # self.setWindowIcon(QIcon('web3.png'))
@@ -181,46 +267,6 @@ class SubWindow(QDialog,QWidget):
 
           self.show()
 
-     def createHorizontalLayout(self):
-
-          hbox = QHBoxLayout()
-
-          if n == mode_list[0]:
-               hbox.addWidget(QLabel("0:Rest"))
-          elif n == mode_list[1]:
-               hbox.addWidget(QLabel("1:Keyboard"))
-          elif n == mode_list[2]:
-               hbox.addWidget(QLabel("2:Mouse"))
-          # self.setGeometry(self.left, self.top, self.width, self.height)
-          
-          self.setWindowTitle('Showing')
-          self.setLayout(hbox)
-          self.show()
-
-          """
-          # 按鈕事件
-          self.horizontalGroupBox = QGroupBox("Showing")
-          
-          layout = QHBoxLayout()
-          change_mode = "rest"
-          buttonBlue = QPushButton(change_mode, self)
-          buttonBlue.clicked.connect(self.on_click)
-          layout.addWidget(buttonBlue) 
-
-          buttonRed = QPushButton('keyboard', self)
-          buttonRed.clicked.connect(self.on_click)
-          layout.addWidget(buttonRed) 
-
-          buttonGreen = QPushButton('mouse', self)
-          buttonGreen.clicked.connect(self.on_click)
-          layout.addWidget(buttonGreen) 
-
-          self.horizontalGroupBox.setLayout(layout)
-
-     @pyqtSlot()
-     def on_click(self):
-          print('PyQt5 button click')
-     """
 
 if __name__ == '__main__':
      app = QApplication([])
